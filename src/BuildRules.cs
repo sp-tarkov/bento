@@ -115,6 +115,17 @@ public static partial class BuildRules
     }
 
     /// <summary>
+    /// The version stamped onto the server NuGet packages. A release uses the plain SPT version; every other build type
+    /// uses a pre-release version stamped with the UTC build time so same-day builds stay unique and sort correctly.
+    /// </summary>
+    public static string NuGetVersion(SptBuildType type, string version, DateTime buildTimeUtc)
+    {
+        return type == SptBuildType.Release
+            ? version
+            : $"{version}-pre.{buildTimeUtc.ToString("yyyyMMddHHmm", CultureInfo.InvariantCulture)}";
+    }
+
+    /// <summary>
     /// Builds the archive base name (no extension) per the release and non-release naming rules.
     /// </summary>
     public static string ArchiveBaseName(

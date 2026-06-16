@@ -14,6 +14,12 @@ public sealed record ManifestRepo(string? Path, string Commit, bool Dirty);
 public sealed record ManifestArchive(string Name, long SizeBytes, string SizeDisplay, string Md5Base64);
 
 /// <summary>
+/// The NuGet packages produced from the server libraries. Their shared version and the package ids, found under the
+/// packages/ dir next to the archive. Not pushed by Bento... The calling workflow would push these.
+/// </summary>
+public sealed record ManifestNuGet(string Version, IReadOnlyList<string> Packages);
+
+/// <summary>
 /// The record of what went into the build, written as manifest.json next to the archive. This is Bento's CI interface;
 /// workflows parse it instead of Bento emitting CI-specific outputs.
 /// </summary>
@@ -27,6 +33,7 @@ public sealed record Manifest(
     string ClientVersion,
     string? Tag,
     ManifestArchive Archive,
+    ManifestNuGet NuGet,
     Dictionary<string, ManifestRepo> Repos
 )
 {

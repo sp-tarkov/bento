@@ -55,6 +55,11 @@ public sealed class BuildContext
     public string ReleaseDir => Path.Combine(StagingDir, "release");
 
     /// <summary>
+    /// Where the server NuGet packages are packed, under the output dir.
+    /// </summary>
+    public string NuGetDir => Path.Combine(OutputDir, "packages");
+
+    /// <summary>
     /// Per-stage log directory under the output dir.
     /// </summary>
     public string LogDir => Path.Combine(OutputDir, "logs");

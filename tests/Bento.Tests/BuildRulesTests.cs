@@ -108,6 +108,26 @@ public class BuildRulesTests
     }
 
     /// <summary>
+    /// A release packs under the plain SPT version.
+    /// </summary>
+    [Test]
+    public void NuGetVersionReleaseIsPlain()
+    {
+        Assert.That(BuildRules.NuGetVersion(SptBuildType.Release, "4.1.0", BuildTime), Is.EqualTo("4.1.0"));
+    }
+
+    /// <summary>
+    /// Every non-release build type packs under a pre-release version stamped with the UTC build time.
+    /// </summary>
+    [TestCase(SptBuildType.Debug)]
+    [TestCase(SptBuildType.BleedingEdge)]
+    [TestCase(SptBuildType.BleedingEdgeMods)]
+    public void NuGetVersionNonReleaseIsTimestampedPreRelease(SptBuildType type)
+    {
+        Assert.That(BuildRules.NuGetVersion(type, "4.1.0", BuildTime), Is.EqualTo("4.1.0-pre.202606121430"));
+    }
+
+    /// <summary>
     /// A release archive name omits the build type and trailing suffix.
     /// </summary>
     [Test]

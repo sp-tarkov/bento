@@ -124,7 +124,8 @@ public sealed class BuildCommand : AsyncCommand<BuildSettings>
             AssembleStep.Run(ctx, server, modulesBuild, launcherBuild, log);
             AssembleStep.PrintReleaseTree(ctx.ReleaseDir);
 
-            var result = await PackageStep.RunAsync(ctx, log);
+            var packages = await NuGetStep.RunAsync(ctx, log);
+            var result = await PackageStep.RunAsync(ctx, packages, log);
 
             Fs.DeleteDirectory(ctx.StagingDir);
             if (ctx.FreshTempRoot is not null)

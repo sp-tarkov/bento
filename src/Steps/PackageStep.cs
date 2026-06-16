@@ -22,6 +22,7 @@ public static class PackageStep
 
     public static async Task<PackageResult> RunAsync(
         BuildContext ctx,
+        IReadOnlyList<NuGetPackage> packages,
         BuildLogger log,
         CancellationToken cancellationToken = default
     )
@@ -68,6 +69,12 @@ public static class PackageStep
             ClientVersion: ctx.ClientVersion!,
             Tag: ctx.Tag,
             Archive: new ManifestArchive(archiveName, sizeBytes, Fs.FormatSize(sizeBytes), md5Base64),
+            NuGet: new ManifestNuGet(
+                packages.Count > 0
+                    ? packages[0].Version
+                    : BuildRules.NuGetVersion(ctx.BuildType, ctx.Version, ctx.BuildTimeUtc),
+                packages.Select(p => p.Id).ToList()
+            ),
             Repos: new Dictionary<string, ManifestRepo>
             {
                 ["server"] = ToManifestRepo(ctx, ctx.Server!),
