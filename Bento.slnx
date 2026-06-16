@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Bento.csproj" />
+  <Project Path="tests/Bento.Tests/Bento.Tests.csproj" />
+</Solution>

@@ -1,0 +1,9 @@
+bin
+obj
+dist
+tests
+.git
+.vs
+.idea
+Dockerfile
+*.md
