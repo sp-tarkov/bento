@@ -31,8 +31,8 @@ public static class AssembleStep
         Directory.CreateDirectory(sptDir);
 
         log.Status(Stage, "merging server artifacts...");
-        Fs.CopyDirectory(server.WinPublishDir, sptDir, ExcludePdb);
         Fs.CopyDirectory(server.LinuxPublishDir, sptDir, ExcludePdb);
+        Fs.CopyDirectory(server.WinPublishDir, sptDir, ExcludePdb);
 
         log.Status(Stage, "merging launcher artifacts...");
         Fs.CopyDirectory(launcherBuildDir, sptDir);

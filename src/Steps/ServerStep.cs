@@ -12,7 +12,7 @@ public static class ServerStep
 {
     public const string Stage = "server";
 
-    private static readonly string[] Platforms = ["win-x64", "linux-x64"];
+    private static readonly string[] Platforms = ["linux-x64", "win-x64"];
 
     /// <summary>
     /// Publishes the server once per platform with the version/build metadata stamped in, then returns the two publish
