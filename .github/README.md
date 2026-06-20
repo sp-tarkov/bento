@@ -17,6 +17,27 @@ Supported SPT versions: `> 4.1.0`
 - [git lfs](https://git-lfs.com/)
 - [7-Zip](https://www.7-zip.org/download.html)
 
+### Building from Source
+
+Clone the repository and build it with the .NET SDK:
+
+```
+git clone https://github.com/sp-tarkov/bento.git
+cd bento
+dotnet build
+```
+
+The compiled executable lands in `bin/Debug/net10.0/`:
+
+- Windows: `bin\Debug\net10.0\bento.exe`
+- Linux / macOS: `bin/Debug/net10.0/bento`
+
+For an optimised build, pass `-c Release`; the output then lives under `bin/Release/net10.0/` instead.
+
+#### Running directly with `dotnet run`
+
+To compile and run in a single step without locating the binary use `dotnet run`. Restore is implicit, but you can run it explicitly first, if you're into that.
+
 ### Usage
 
 #### Development Usage
@@ -57,6 +78,7 @@ docker run --rm \
 | `--module-package <URL_OR_DIR>` | Module package source: an http base URL or a local directory. Overrides `MODULE_PACKAGE` and config.              |
 | `--output <DIR>`                | Where the `.7z`, `manifest.json`, and logs land. Default: `./dist`.                                               |
 | `--no-config`                   | Ignore the user config file (automatic in containers); every value must come from flags or environment variables. |
+| `--help`                        | List every flag.                                                                                                  |
 
 ### Environment
 

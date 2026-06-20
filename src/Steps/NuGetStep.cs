@@ -26,8 +26,8 @@ public static class NuGetStep
     ];
 
     /// <summary>
-    /// Packs the server solution into NuGetDir under the build-type's NuGet version, then returns the expected packages
-    /// that were produced.
+    /// Packs the server solution into NuGetDir, prunes any .nupkg the orchestrating workflow does not publish, then
+    /// returns the recorded packages.
     /// </summary>
     public static async Task<IReadOnlyList<NuGetPackage>> RunAsync(
         BuildContext ctx,
@@ -67,6 +67,25 @@ public static class NuGetStep
             }
         }
 
+        PruneExtras(ctx.NuGetDir, packages, log);
+
         return packages;
+    }
+
+    // dotnet pack emits a .nupkg per packable project. Remove anything that is not a recorded package so the output
+    // directory matches the packages the workflow publishes.
+    private static void PruneExtras(string nugetDir, IReadOnlyList<NuGetPackage> packages, BuildLogger log)
+    {
+        var keep = packages.Select(p => Path.GetFullPath(p.File)).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var path in Directory.EnumerateFiles(nugetDir))
+        {
+            if (keep.Contains(Path.GetFullPath(path)))
+            {
+                continue;
+            }
+
+            File.Delete(path);
+            log.Line(Stage, $"pruned {Path.GetFileName(path)}");
+        }
     }
 }
