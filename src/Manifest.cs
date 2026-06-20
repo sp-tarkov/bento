@@ -33,7 +33,7 @@ public sealed record Manifest(
     string ClientVersion,
     string? Tag,
     ManifestArchive Archive,
-    ManifestNuGet NuGet,
+    [property: JsonPropertyName("nuget")] ManifestNuGet NuGet,
     Dictionary<string, ManifestRepo> Repos
 )
 {
